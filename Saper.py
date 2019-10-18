@@ -5,12 +5,10 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-from kivy.properties import ObjectProperty
-from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager,Screen
 from kivy.config import Config
-
+from kivy.uix.popup import Popup
+from kivy.uix.widget import Widget
 
 Config.set('graphics','resizable','0');
 Config.set('graphics','width','300');
@@ -33,7 +31,7 @@ class MainWindow(BoxLayout):
         self.box=BoxLayout(orientation='horizontal',size_hint=(1, .20))
 
         # Создание верхних кнопок
-        self.bt_setting = Button(text='Setting', background_color=[.5,.5,1,1],on_press=self.change)
+        self.bt_setting = Button(text='Setting', background_color=[.5,.5,1,1],on_press=self.change,color=[0,0.9,1,1])
         self.bt_smile = Button(text=':)',color=[.7,.7,0,1],background_color=[.5,.5,1,1],on_press=self.repeat)
         self.bt_flag = Button(text='Saper', color=[1, 0, 0, 1],background_color=[.5,.5,1,1],on_press=self.flag)
         self.bt_bomb = Label(text=str(self.number_in_label),color=[0,1,0,1])
@@ -99,8 +97,6 @@ class MainWindow(BoxLayout):
             self.bt_flag.text="Saper"
         else:
             self.bt_flag.text = "Flag"
-
-
 
     # Логика поля
     def point(self,instance):
@@ -231,23 +227,23 @@ class SecondWindow(BoxLayout):
 
         self.orientation='horizontal'
         self.box=BoxLayout(orientation='vertical',size_hint=(0.8,1))
-        self.label=Label(text="Choice mode",font_size=20)
-        self.bt1 = Button(text='Easy',font_size=20,color=[1,1,1,1],
-                          background_color=[.5,.5,1,1],on_press=self.change)
-        self.bt2 = Button(text='Normal',font_size=20,color=[1,1,1,1],
-                          background_color=[.5,.5,1,1],on_press=self.change_two)
-        self.bt3 = Button(text='Hard', font_size=20, color=[1, 1, 1, 1],
-                          background_color=[.5, .5, 1, 1], on_press=self.change_three)
+        self.label=Label(text="Choice mode",font_size=20,color=[0,0.9,1,1])
+        self.bt1 = Button(text='Easy',font_size=20,color=[0,1,0.2,1],
+                          background_color=[.3,.7,0,1],on_press=self.change)
+        self.bt2 = Button(text='Normal',font_size=25,color=[0,0.9,1,1],
+                          background_color=[0,.5,0.5,1],on_press=self.change_two)
+        self.bt3 = Button(text='Hard', font_size=30, color=[1, 0, 0, 1],
+                          background_color=[1, 0.6, 0, 1],background_normal='' ,on_press=self.change_three)
         self.box.add_widget(self.label)
         self.box.add_widget(self.bt1)
         self.box.add_widget(self.bt2)
         self.box.add_widget(self.bt3)
 
         self.box_2 = BoxLayout(orientation='vertical',size_hint=(0.2,1))
-        self.bt_i=Button(text='i',font_size=30,color=[1,1,1,1],
+        self.bt_i=Button(text='i',font_size=30,color=[0,0.9,1,1],
                           background_color=[.5,.5,1,1],on_press=self.info,size_hint=(1,0.2))
-        self.bt_future=Button(text='_',font_size=30,color=[1,1,1,1],
-                          background_color=[.5,.5,1,1],on_press=self.info,size_hint=(1,0.8))
+        self.bt_future=Button(text='R\nU\nL\nE\nS',font_size=30,color=[0,0.9,1,1],
+                          background_color=[.5,.5,1,1],on_press=self.info2,size_hint=(1,0.8))
         self.box_2.add_widget(self.bt_i)
         self.box_2.add_widget(self.bt_future)
 
@@ -261,7 +257,21 @@ class SecondWindow(BoxLayout):
     def change_three(self,instance):
         manager.current='main_three'
     def info(self,instance):
-        pass
+        info=Info()
+        popupWindow=Popup(title='Information',content=info,size_hint=(None,None),size=(250,300))
+        popupWindow.open()
+    def info2(self,instance):
+        info = Info2()
+        popupWindow = Popup(title='Information', content=info, size_hint=(None, None), size=(250, 300))
+        popupWindow.open()
+
+# Window of information
+class Info(BoxLayout):
+    pass
+class Info2(BoxLayout):
+    pass
+
+
 # Мэнэджер экранов
 manager=ScreenManager()
 #Экраны
@@ -282,11 +292,10 @@ manager.add_widget(screen1)
 manager.add_widget(screen2)
 manager.add_widget(screen3)
 manager.add_widget(screen4)
+
 class SaperApp(App):
     def build(self):
-
       return manager
-
 
 if __name__ == '__main__':
     SaperApp().run()
