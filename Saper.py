@@ -162,7 +162,8 @@ class MainWindow(BoxLayout):
                     self.bt_list[i][j].background_color = [1, 0, 0, 1]
 
     def count_bomb(self,i,j):
-            '''Подсчет точек вокруг'''
+        '''Подсчет точек вокруг'''
+        if self.bt_list[i][j] not in self.check_list: # Была ли уже проверена кнопка
             count=0
             for x in range(i-1,i+2):
                 for y in range(j-1,j+2):
@@ -214,12 +215,10 @@ class MainWindow(BoxLayout):
                     self.bt_list[i][j].background_color = [0.5, 0.9, 0.9, 1]
 
     def win(self):
-        number_flag=0
-        for x in range(len(self.flag_list)):
-            if self.flag_list[x] in self.bomb_list:
-                number_flag+=1
-        if number_flag==len(self.bomb_list) and len(self.flag_list)==len(self.bomb_list):
+        '''Проверяет на победу'''
+        if len(self.check_list)==int((self.Y*self.X)-self.number_bomb):
             self.bt_bomb.text='WIN'
+            print(len(self.check_list),int((self.Y*self.X)-self.number_bomb))
 
 class SecondWindow(BoxLayout):
     def __init__(self,**kwargs):
