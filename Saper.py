@@ -101,7 +101,11 @@ class MainWindow(BoxLayout):
     # Логика поля
     def point(self,instance):
         '''Нажатие любой кнопки'''
-        if self.bomb_or_flag:
+        #Не срабатывает при победе или проигрыше
+        if self.bt_bomb.text=="DEAD" or self.bt_bomb.text=='WIN':
+            pass
+        #Раскрываем поле
+        elif self.bomb_or_flag:
             if self.first_point:
                 self.first_point=not self.first_point
                 self.distribution_bomb(instance,self.number_bomb,self.X,self.Y)
@@ -218,7 +222,7 @@ class MainWindow(BoxLayout):
         '''Проверяет на победу'''
         if len(self.check_list)==int((self.Y*self.X)-self.number_bomb):
             self.bt_bomb.text='WIN'
-            print(len(self.check_list),int((self.Y*self.X)-self.number_bomb))
+            #print(len(self.check_list),int((self.Y*self.X)-self.number_bomb))
 
 class SecondWindow(BoxLayout):
     def __init__(self,**kwargs):
